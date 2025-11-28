@@ -17,6 +17,11 @@ COPY . .
 # Expõe a porta da aplicação
 EXPOSE 8000
 
+#ENTRYPOINT vai ser um script que roda alembic upgrade e depois o uvicorn
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
 # Comando para iniciar a aplicação
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+#CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
