@@ -15,7 +15,9 @@ SessionLocal = sessionmaker(bind=engine)
 
 Base = declarative_base()
 
+from api.models import users, books
+
 def init_db():
-    from api.models import users, books
+    #from api.models import users, books
     Base.metadata.create_all(bind=engine)
 
