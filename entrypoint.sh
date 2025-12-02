@@ -4,8 +4,10 @@ set -e
 cd /app
 
 # Aguarda o postgres subir
-echo "Aguardando o banco subir..."
-sleep 5
+until pg_isready -h db -U postgres; do
+    echo "Aguardando Postgres..."
+    sleep 1
+done
 
 echo "Rodando migrações..."
 alembic upgrade head
