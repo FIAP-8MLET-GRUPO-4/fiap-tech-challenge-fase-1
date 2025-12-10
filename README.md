@@ -115,5 +115,3 @@ uvicorn main:app --reload
 - **PostgreSQL 17** - Banco de dados
 - **Docker** - Containerização
 - **Uvicorn** - Servidor ASGI
-
-### Ricardo 
