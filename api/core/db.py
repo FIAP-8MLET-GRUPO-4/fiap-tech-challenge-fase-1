@@ -21,3 +21,15 @@ def init_db():
     #from api.models import users, books
     Base.metadata.create_all(bind=engine)
 
+
+def get_db():
+    """
+    Cria uma sessão de banco de dados para cada requisição
+    e garante que ela seja fechada ao final.
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
