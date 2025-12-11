@@ -1,9 +1,9 @@
-from sqlalchemy import Column, Integer, Float, String, Identity, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, Float, String, Text, Identity, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from api.core.db import Base
 
 class Category(Base):
-    __tablename__ = 'categories' # Nome da tabela no banco
+    __tablename__ = 'categories'
     
     id = Column(Integer, primary_key=True)
     name = Column(String(255), unique=True, nullable=False)
