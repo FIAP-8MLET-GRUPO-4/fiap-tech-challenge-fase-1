@@ -2,9 +2,12 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
+ENV PYTHONUNBUFFERED=1
+
 # Instala dependências do sistema necessárias para psycopg2
 RUN apt-get update && apt-get install -y \
     libpq-dev \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Copia e instala dependências Python
