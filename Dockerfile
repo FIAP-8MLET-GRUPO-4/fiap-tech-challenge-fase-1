@@ -4,7 +4,7 @@ WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1
 
-# Instala dependências do sistema necessárias para psycopg2
+# Instala dependências do sistema necessárias para psycopg2 e pg_isready
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     postgresql-client \
