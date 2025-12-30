@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from api.core.db import init_db
-from api.routers import scraper_route
+from api.routers import scraper_route, stats_route
 
 app = FastAPI()
 
@@ -14,7 +14,11 @@ def on_startup():
 def hello_world():
     return {"message": "Hello World"}
 
+# Post /scraper/run: Rota para fazer o Scrapping dos Livros
 app.include_router(scraper_route.router, prefix="/scraper", tags=["Scraper"])
+
+# GET /api/v1/stats/overview: Rota sobre estatísticas gerais da coleção (total de livros, preço médio, distribuição de ratings).
+app.include_router(stats_route.router, prefix="/api/v1/stats", tags=["Insights"])
 
 if __name__ == "__main__":
     import uvicorn
