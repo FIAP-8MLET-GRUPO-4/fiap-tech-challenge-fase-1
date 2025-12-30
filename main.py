@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from api.core.db import init_db
-from api.routers import scraper_route
+from api.routers import scraper_route, ml_route
 
 app = FastAPI()
 
@@ -15,6 +15,9 @@ def hello_world():
     return {"message": "Hello World"}
 
 app.include_router(scraper_route.router, prefix="/scraper", tags=["Scraper"])
+
+app.include_router(ml_route.router, prefix="/api/v1/ml", tags=["Machine Learning"])
+
 
 if __name__ == "__main__":
     import uvicorn
