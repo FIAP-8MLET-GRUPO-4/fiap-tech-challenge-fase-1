@@ -15,7 +15,7 @@ SessionLocal = sessionmaker(bind=engine)
 
 Base = declarative_base()
 
-from api.models import users, books
+from api.models import users, books, prediction_log
 
 def init_db():
     #from api.models import users, books
