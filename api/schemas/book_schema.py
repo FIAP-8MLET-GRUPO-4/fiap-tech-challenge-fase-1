@@ -16,3 +16,8 @@ class BookResponse(BaseModel):
     # Configuração necessária para o Pydantic ler objetos do SQLAlchemy (ORM)
     class Config:
         from_attributes = True
+
+# Herda de BookResponse, então já tem todos os campos acima
+class BookDetailResponse(BookResponse):
+    description: Optional[str] = None
+    imagem_url: Optional[str] = None
