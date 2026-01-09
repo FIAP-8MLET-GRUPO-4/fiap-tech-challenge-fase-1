@@ -1,6 +1,7 @@
 # api/routers/scraper_route.py
-from fastapi import APIRouter, BackgroundTasks, Query
-from api.core.db import SessionLocal 
+from fastapi import APIRouter, BackgroundTasks, Query, Depends
+from api.core.db import SessionLocal
+from api.core.deps import get_current_user 
 from api.services.scraper_service import run_scraper_pipeline
 import logging
 import sys
@@ -30,16 +31,20 @@ def scraper_background_task(limit: Optional[int]):
 @router.post("/run")
 def trigger_scraper(
     background_tasks: BackgroundTasks,
-    limit: Optional[int] = Query(None, description="Limite de livros por categoria. Use 0 para todos.")
+    limit: Optional[int] = Query(None, description="Limite de livros por categoria. Use 0 para todos."),
+    current_user = Depends(get_current_user)
 ):
     """
-    Inicia o processo de Scraper em segundo plano.
+    Inicia o processo de Scraper em segundo plano (Requer Autenticação).
     - **limit**: (Opcional) Sobrescreve a configuração padrão. Ex: ?limit=1 para teste rápido.
     """
+    logger.info(f"Scraper iniciado pelo usuário: {current_user.username}")
+
     background_tasks.add_task(scraper_background_task, limit)
     
     return {
         "message": "O processo de scraping foi iniciado em segundo plano.",
+        "user": current_user.username,
         "config": f"Limite aplicado: {limit if limit is not None else 'Padrão do Ambiente'}",
         "note": "Verifique os logs do console para acompanhar o progresso."
     }

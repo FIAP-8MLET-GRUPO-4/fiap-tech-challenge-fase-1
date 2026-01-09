@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from api.core.db import init_db
-from api.routers import scraper_route, book_route, stats_route, ml_route, category_route, health_route
+from api.routers import scraper_route, book_route, stats_route, ml_route, category_route, health_route, auth_route
 
 app = FastAPI()
 
@@ -31,6 +31,9 @@ app.include_router(category_route.router, prefix="/api/v1/categories", tags=["Ca
 
 # GET /api/v1/health: Rota para verificar status da API e conectividade com os dados
 app.include_router(health_route.router, prefix="/api/v1/health", tags=["System"])
+
+# POST /api/v1/auth: Cria as Rotas de login e refresh para obter e renovar token
+app.include_router(auth_route.router, prefix="/api/v1/auth", tags=["Authentication"])
 
 if __name__ == "__main__":
     import uvicorn
