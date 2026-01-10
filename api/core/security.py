@@ -56,9 +56,12 @@ def create_refresh_token(subject: Union[str, Any]) -> str:
     return encoded_jwt
 
 def decode_token(token: str):
-    """Decodifica e valida o token."""
     try:
-        decoded_token = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return decoded_token if decoded_token["exp"] >= datetime.utcnow().timestamp() else None
-    except:
+        # o PyJWT já valida o exp automaticamente
+        return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    except ExpiredSignatureError:
+        logger.warning("Token expirado")
+        return None
+    except InvalidTokenError as e:
+        logger.warning(f"Token inválido: {e}")
         return None
