@@ -111,6 +111,24 @@ curl -X 'POST' \
   -d ''
 ```
 
+## Monitoramento & Analytics
+
+A aplicação possui monitoramento nativo com Prometheus e dashboard em Streamlit.
+
+- Logs estruturados em JSON para todas as requisições
+- Métricas de performance expostas em `/metrics`
+- Dashboard em Streamlit consumindo métricas em tempo real
+
+### Como executar localmente
+```bash
+uvicorn main:app --reload
+streamlit run api/dashboard/app.py
+```
+
+### Dashboard
+Acesse seu dashboard em http://localhost:8501
+
+
 ## Estrutura do Projeto
 
 ```
