@@ -30,6 +30,19 @@ services:
       db:
         condition: service_healthy
 
+  dashboard:
+    build: .
+    container_name: tech-challenge-dashboard
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    environment:
+      API_METRICS_URL: "http://api:8000/metrics"
+    entrypoint: []   # <- importante se seu Dockerfile tem ENTRYPOINT/entrypoint.sh
+    command: ["streamlit", "run", "api/dashboard/app.py", "--server.address=0.0.0.0", "--server.port=8501"]
+    depends_on:
+      - api
+
 volumes:
   postgres_data:
 
