@@ -81,11 +81,35 @@ python main.py
 uvicorn main:app --reload
 ```
 
-## Acesso
+## Links de Acesso
 
 - **API**: http://localhost:8000
 - **Documentação Swagger**: http://localhost:8000/docs
 - **Documentação ReDoc**: http://localhost:8000/redoc
+
+## Scrapping
+
+Para iniciar o scraper localmente não é necessario autenticação, execute:
+```bash
+python3 -m scripts.scrape_books --limit 2
+
+```
+
+Para iniciar o scraper pela API, é necessario autenticação, pelo swagger:
+
+1. Crie o usuario administrador
+2. Faça login e obtenha um token
+3. No botão de autenticação do swagger, insira o token
+4. No campo de limit, insira o limite de livros
+5. Execute a rota POST /scraper/run
+
+```bash
+curl -X 'POST' \
+  'http://localhost:8000/scraper/run' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer [YOUR_TOKEN]' \
+  -d ''
+```
 
 ## Estrutura do Projeto
 
