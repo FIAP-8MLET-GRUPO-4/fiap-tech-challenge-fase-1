@@ -13,7 +13,7 @@ from main import app
 from api.core.db import Base, get_db
 from api.models.users import User
 from api.models.books import Book, Category
-from api.core.security import hash_password
+from api.core.security import get_password_hash
 
 
 # Database URL para testes (SQLite em memória)
@@ -68,7 +68,7 @@ def test_user(db_session: Session) -> User:
     """Cria um usuário de teste no banco de dados."""
     user = User(
         username="testuser",
-        password=hash_password("testpassword123")
+        password=get_password_hash("testpassword123")
     )
     db_session.add(user)
     db_session.commit()

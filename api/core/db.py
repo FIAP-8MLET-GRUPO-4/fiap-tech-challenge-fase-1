@@ -7,10 +7,15 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+# Permite testes sem DATABASE_URL
 if DATABASE_URL is None:
-    raise RuntimeError("DATABASE_URL não definido no arquivo .env")
+    if os.getenv("TESTING") == "true":
+        # Para testes, usa SQLite em memória (será sobrescrito pelo conftest.py)
+        DATABASE_URL = "sqlite:///:memory:"
+    else:
+        raise RuntimeError("DATABASE_URL não definido no arquivo .env")
 
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(DATABASE_URL, echo=False)  # echo=False para testes mais limpos
 SessionLocal = sessionmaker(bind=engine)
 
 Base = declarative_base()

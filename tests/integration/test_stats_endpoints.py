@@ -54,7 +54,7 @@ class TestGetOverviewStats:
 
 @pytest.mark.integration
 class TestGetCategoryStats:
-    """Testes para o endpoint GET /api/v1/stats/by-category."""
+    """Testes para o endpoint GET /api/v1/stats/categories."""
 
     def test_category_stats_with_books(self, client: TestClient, db_session: Session):
         """Testa estatísticas por categoria."""
@@ -82,7 +82,7 @@ class TestGetCategoryStats:
             db_session.add(book)
         db_session.commit()
 
-        response = client.get("/api/v1/stats/by-category")
+        response = client.get("/api/v1/stats/categories")
 
         assert response.status_code == 200
         data = response.json()
@@ -102,7 +102,7 @@ class TestGetCategoryStats:
 
     def test_category_stats_empty(self, client: TestClient):
         """Testa estatísticas por categoria com banco vazio."""
-        response = client.get("/api/v1/stats/by-category")
+        response = client.get("/api/v1/stats/categories")
 
         assert response.status_code == 200
         assert response.json() == []
