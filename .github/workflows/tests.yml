@@ -42,6 +42,7 @@ jobs:
 
     - name: Run tests with pytest
       env:
+        TESTING: true
         DATABASE_URL: postgresql://testuser:testpass@localhost:5432/testdb
         JWT_SECRET_KEY: test-secret-key-for-testing-only
         JWT_ALGORITHM: HS256
