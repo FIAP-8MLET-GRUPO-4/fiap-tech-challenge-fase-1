@@ -16,7 +16,7 @@ from api.models.books import Book
 MODEL_PATH = os.path.join("api", "ml_models", "model_books_price.joblib")
 
 FEATURE_COLS = ["rating", "quantity", "availability", "category_id"]
-TARGET_COL = "price"
+TARGET_COL = "target_price"
 
 def get_book_features(db: Session):
     books = db.query(Book).all()
@@ -39,14 +39,13 @@ def get_training_data_price(db: Session):
         if b.category_id is None or b.price is None:
             continue
         rows.append({
-            "rating": b.rating,
-            "quantity": b.quantity if b.quantity is not None else 0,
-            "availability": bool(b.availability),
-            "category_id": b.category_id,
+            "rating": int(b.rating) if b.rating is not None else None,
+            "quantity": int(b.quantity) if b.quantity is not None else 0,
+            "availability": bool(b.availability) if b.availability is not None else False,
+            "category_id": int(b.category_id),
             "target_price": float(b.price),
         })
-    df = pd.DataFrame(rows)
-    return df
+    return rows
 
 def _to_rows(books):
     rows = []
@@ -64,7 +63,9 @@ def _to_rows(books):
     return rows
 
 def train_price_model(db: Session):
-    df = get_training_data_price(db)
+    rows = get_training_data_price(db)
+    df = pd.DataFrame(rows)
+    df["availability"] = df["availability"].astype(int)
 
     if df.empty or len(df) < 30:
         raise ValueError(f"Poucos dados para treino: {len(df)} linhas. Rode o scraper e alimente o DB.")
@@ -140,5 +141,6 @@ def predict_price(payload_dict: dict):
     X = pd.DataFrame([payload_dict])[FEATURE_COLS]
     pred = float(model.predict(X)[0])
 
-    return {"predicted_price": max(0.0, pred)}
+    return {"target_price": max(0.0, pred)}
+
 
