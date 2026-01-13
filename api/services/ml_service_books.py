@@ -137,10 +137,15 @@ def load_price_model():
 def predict_price(payload_dict: dict):
     model = load_price_model()
 
-    # garante formato 2D
-    X = pd.DataFrame([payload_dict])[FEATURE_COLS]
-    pred = float(model.predict(X)[0])
+    X = pd.DataFrame([payload_dict])
 
+    # garante colunas e tipos esperados
+    X = X[FEATURE_COLS].copy()
+    X["availability"] = X["availability"].astype(int)
+    X["category_id"] = X["category_id"].astype(int)
+
+    pred = float(model.predict(X)[0])
     return {"target_price": max(0.0, pred)}
+
 
 
