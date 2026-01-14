@@ -229,19 +229,70 @@ pytest --cov=api --cov-report=term-missing
 
 Os testes são executados automaticamente em cada push e pull request através do GitHub Actions.
 
-**Workflow configurado** (`.github/workflows/tests.yml`):
-- ✅ Executa em Ubuntu Latest
-- ✅ PostgreSQL 15 como serviço
-- ✅ Python 3.11
-- ✅ Cache de dependências pip
-- ✅ Execução automática de todos os testes
-- ✅ Relatórios de cobertura para Codecov
-- ✅ Triggers: push e pull requests para `main` e `develop`
+**Workflows configurados**:
 
-**Badges de Status** (adicione ao topo do README se desejar):
+#### 1. CI - Testes (`.github/workflows/ci.yml`)
+- ✅ Executa em Ubuntu Latest com Python 3.12
+- ✅ Cache de dependências pip
+- ✅ Execução automática de todos os testes com cobertura
+- ✅ Verificação de qualidade de código (Ruff)
+- ✅ Análise de segurança (Bandit + Safety)
+- ✅ Relatórios de cobertura para Codecov
+- ✅ Triggers: push e pull requests para `main`, `master` e `develop`
+
+#### 2. CD - Deploy (`.github/workflows/cd.yml`)
+- ✅ Deploy automático para Render após CI passar
+- ✅ Integração com Render API
+- ✅ Notificações de status
+
+**Badges de Status** (adicione ao topo do README):
 ```markdown
-![Tests](https://github.com/FIAP-8MLET-GRUPO-4/fiap-tech-challenge-fase-1/actions/workflows/tests.yml/badge.svg)
+![CI](https://github.com/SEU-USUARIO/fiap-tech-challenge-fase-1/actions/workflows/ci.yml/badge.svg)
+![CD](https://github.com/SEU-USUARIO/fiap-tech-challenge-fase-1/actions/workflows/cd.yml/badge.svg)
 ```
+
+## Deploy no Render
+
+O projeto está configurado para deploy no [Render](https://render.com) com PostgreSQL gerenciado.
+
+### Deploy Automático (Recomendado)
+
+1. **Crie uma conta no Render**: https://render.com
+
+2. **Conecte seu repositório GitHub** ao Render
+
+3. **Use o Blueprint** (render.yaml):
+   - No dashboard do Render, clique em **New** → **Blueprint**
+   - Selecione seu repositório
+   - O Render irá detectar o `render.yaml` e criar automaticamente:
+     - API FastAPI (Web Service)
+     - Dashboard Streamlit (Web Service)
+     - Banco PostgreSQL
+
+4. **Configure os Secrets no GitHub** (opcional, para deploy via API):
+   - `RENDER_API_KEY`: Sua API Key do Render (Settings → API Keys)
+   - `RENDER_SERVICE_ID`: ID do serviço da API (visível na URL do serviço)
+
+### URLs de Produção
+
+Após o deploy, você terá:
+- **API**: `https://fiap-tech-challenge-api.onrender.com`
+- **Dashboard**: `https://fiap-tech-challenge-dashboard.onrender.com`
+- **Swagger**: `https://fiap-tech-challenge-api.onrender.com/docs`
+
+### Variáveis de Ambiente no Render
+
+As seguintes variáveis são configuradas automaticamente via `render.yaml`:
+- `DATABASE_URL` - Conexão com PostgreSQL (auto-injetada)
+- `PYTHON_ENV` - Ambiente de execução
+- `LOG_LEVEL` - Nível de logs
+- `SCRAPER_LIMIT` - Limite de scraping
+
+### Monitoramento
+
+- **Health Check**: `/api/v1/health`
+- **Métricas**: `/metrics` (Prometheus)
+- **Logs**: Disponíveis no dashboard do Render
 
 ### Estatísticas dos Testes
 
