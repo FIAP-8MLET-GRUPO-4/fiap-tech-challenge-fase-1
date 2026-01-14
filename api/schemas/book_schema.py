@@ -7,9 +7,9 @@ class BookResponse(BaseModel):
     id: int
     title: str
     price: float
-    availability: bool
-    quantity: int
-    rating: int
+    availability: Optional[bool] = None
+    quantity: Optional[int] = None
+    rating: Optional[int] = None
     upc: str
     category_name: Optional[str] = None # Podemos retornar o nome da categoria para facilitar
     

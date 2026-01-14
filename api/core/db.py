@@ -5,12 +5,20 @@ import os
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+# Verifica modo de teste ANTES de usar DATABASE_URL do ambiente
+if os.getenv("TESTING") == "true":
+    # Para testes, usa SQLite em memória (será sobrescrito pelo conftest.py)
+    DATABASE_URL = "sqlite:///:memory:"
+else:
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    if DATABASE_URL is None:
+        raise RuntimeError("DATABASE_URL não definido no arquivo .env")
 
-if DATABASE_URL is None:
-    raise RuntimeError("DATABASE_URL não definido no arquivo .env")
-
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(
+    DATABASE_URL,
+    echo=False,  # echo=False para testes mais limpos
+    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
+)
 SessionLocal = sessionmaker(bind=engine)
 
 Base = declarative_base()

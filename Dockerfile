@@ -20,11 +20,12 @@ COPY . .
 # Expõe a porta da aplicação
 EXPOSE 8000
 
-#ENTRYPOINT vai ser um script que roda alembic upgrade e depois o uvicorn
+# Copia scripts de inicialização
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY start.sh /start.sh
+RUN chmod +x /entrypoint.sh /start.sh
 
-# Comando para iniciar a aplicação
-#CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Comando padrão: start.sh (usado no Render)
+# Para docker-compose local, sobrescrevemos com entrypoint.sh
+CMD ["/start.sh"]
 

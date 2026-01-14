@@ -111,6 +111,235 @@ curl -X 'POST' \
   -d ''
 ```
 
+## Monitoramento & Analytics
+
+A aplicação possui monitoramento nativo com Prometheus e dashboard em Streamlit.
+
+- Logs estruturados em JSON para todas as requisições
+- Métricas de performance expostas em `/metrics`
+- Dashboard em Streamlit consumindo métricas em tempo real
+
+### Como executar localmente
+```bash
+uvicorn main:app --reload
+streamlit run api/dashboard/app.py
+```
+
+### Dashboard
+Acesse seu dashboard em http://localhost:8501
+
+
+## Testes Automatizados
+
+O projeto possui uma suíte completa de testes automatizados com cobertura mínima de 70%.
+
+### Estrutura dos Testes
+
+```
+tests/
+├── conftest.py                       # Fixtures compartilhadas
+├── unit/                             # Testes unitários
+│   ├── test_book_service.py         # Testes do serviço de livros
+│   ├── test_category_service.py     # Testes do serviço de categorias
+│   ├── test_stats_service.py        # Testes do serviço de estatísticas
+│   └── test_health_service.py       # Testes do serviço de saúde
+└── integration/                      # Testes de integração
+    ├── test_auth_endpoints.py       # Testes de autenticação
+    ├── test_book_endpoints.py       # Testes dos endpoints de livros
+    ├── test_category_endpoints.py   # Testes dos endpoints de categorias
+    ├── test_stats_endpoints.py      # Testes dos endpoints de estatísticas
+    ├── test_health_endpoints.py     # Testes do endpoint de saúde
+    └── test_main_endpoints.py       # Testes dos endpoints principais
+```
+
+### Executando os Testes
+
+#### 1. Instalar Dependências de Teste
+
+```bash
+pip install -r requirements.txt
+```
+
+As dependências de teste incluem:
+- `pytest` - Framework de testes
+- `pytest-asyncio` - Suporte para testes assíncronos
+- `pytest-cov` - Cobertura de código
+- `httpx` - Cliente HTTP para testes FastAPI
+- `faker` - Geração de dados de teste
+
+#### 2. Executar Todos os Testes
+
+```bash
+pytest
+```
+
+#### 3. Executar Testes com Cobertura
+
+```bash
+pytest --cov=api --cov-report=term-missing
+```
+
+Para gerar relatório HTML de cobertura:
+```bash
+pytest --cov=api --cov-report=html
+# Abra o arquivo htmlcov/index.html no navegador
+```
+
+#### 4. Executar Testes por Categoria
+
+Apenas testes unitários:
+```bash
+pytest tests/unit/ -m unit
+```
+
+Apenas testes de integração:
+```bash
+pytest tests/integration/ -m integration
+```
+
+#### 5. Executar Testes Específicos
+
+Executar um arquivo específico:
+```bash
+pytest tests/unit/test_book_service.py
+```
+
+Executar um teste específico:
+```bash
+pytest tests/unit/test_book_service.py::TestListBooks::test_list_books_default_pagination
+```
+
+#### 6. Executar com Verbosidade
+
+```bash
+pytest -v  # Modo verbose
+pytest -vv # Modo extra verbose
+```
+
+### Cobertura de Código
+
+O projeto está configurado para exigir uma cobertura mínima de **70%**. Os testes falharão se a cobertura ficar abaixo desse threshold.
+
+Para verificar a cobertura atual:
+```bash
+pytest --cov=api --cov-report=term-missing
+```
+
+### CI/CD - GitHub Actions
+
+Os testes são executados automaticamente em cada push e pull request através do GitHub Actions.
+
+**Workflows configurados**:
+
+#### 1. CI - Testes (`.github/workflows/ci.yml`)
+- ✅ Executa em Ubuntu Latest com Python 3.12
+- ✅ Cache de dependências pip
+- ✅ Execução automática de todos os testes com cobertura
+- ✅ Verificação de qualidade de código (Ruff)
+- ✅ Análise de segurança (Bandit + Safety)
+- ✅ Relatórios de cobertura para Codecov
+- ✅ Triggers: push e pull requests para `main`, `master` e `develop`
+
+#### 2. CD - Deploy (`.github/workflows/cd.yml`)
+- ✅ Deploy automático para Render após CI passar
+- ✅ Integração com Render API
+- ✅ Notificações de status
+
+**Badges de Status** (adicione ao topo do README):
+```markdown
+![CI](https://github.com/SEU-USUARIO/fiap-tech-challenge-fase-1/actions/workflows/ci.yml/badge.svg)
+![CD](https://github.com/SEU-USUARIO/fiap-tech-challenge-fase-1/actions/workflows/cd.yml/badge.svg)
+```
+
+## Deploy no Render
+
+O projeto está configurado para deploy no [Render](https://render.com) com PostgreSQL gerenciado.
+
+### Deploy Automático (Recomendado)
+
+1. **Crie uma conta no Render**: https://render.com
+
+2. **Conecte seu repositório GitHub** ao Render
+
+3. **Use o Blueprint** (render.yaml):
+   - No dashboard do Render, clique em **New** → **Blueprint**
+   - Selecione seu repositório
+   - O Render irá detectar o `render.yaml` e criar automaticamente:
+     - API FastAPI (Web Service)
+     - Dashboard Streamlit (Web Service)
+     - Banco PostgreSQL
+
+4. **Configure os Secrets no GitHub** (opcional, para deploy via API):
+   - `RENDER_API_KEY`: Sua API Key do Render (Settings → API Keys)
+   - `RENDER_SERVICE_ID`: ID do serviço da API (visível na URL do serviço)
+
+### URLs de Produção
+
+Após o deploy, você terá:
+- **API**: `https://fiap-tech-challenge-api.onrender.com`
+- **Dashboard**: `https://fiap-tech-challenge-dashboard.onrender.com`
+- **Swagger**: `https://fiap-tech-challenge-api.onrender.com/docs`
+
+### Variáveis de Ambiente no Render
+
+As seguintes variáveis são configuradas automaticamente via `render.yaml`:
+- `DATABASE_URL` - Conexão com PostgreSQL (auto-injetada)
+- `PYTHON_ENV` - Ambiente de execução
+- `LOG_LEVEL` - Nível de logs
+- `SCRAPER_LIMIT` - Limite de scraping
+
+### Monitoramento
+
+- **Health Check**: `/api/v1/health`
+- **Métricas**: `/metrics` (Prometheus)
+- **Logs**: Disponíveis no dashboard do Render
+
+### Estatísticas dos Testes
+
+- **Total de testes**: 39
+- **Testes unitários**: 17
+- **Testes de integração**: 22
+- **Cobertura mínima**: 70%
+
+### Fixtures Disponíveis
+
+O arquivo `tests/conftest.py` fornece fixtures úteis:
+
+- `db_engine` - Engine SQLite em memória para testes
+- `db_session` - Sessão de banco de dados isolada
+- `client` - Cliente TestClient do FastAPI
+- `test_user` - Usuário de teste pré-criado
+- `test_category` - Categoria de teste
+- `test_book` - Livro de teste com relações
+- `auth_token` - Token JWT válido para autenticação
+- `auth_headers` - Headers HTTP com autenticação
+
+### Escrevendo Novos Testes
+
+Exemplo de teste unitário:
+```python
+import pytest
+from api.services import book_service
+
+@pytest.mark.unit
+def test_list_books(db_session, test_book):
+    books = book_service.list_books(db_session)
+    assert len(books) == 1
+    assert books[0].title == test_book.title
+```
+
+Exemplo de teste de integração:
+```python
+import pytest
+
+@pytest.mark.integration
+def test_get_all_books(client, test_book):
+    response = client.get("/api/v1/books/")
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+```
+
+
 ## Estrutura do Projeto
 
 ```

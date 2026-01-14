@@ -59,9 +59,12 @@ def decode_token(token: str):
     try:
         # o PyJWT já valida o exp automaticamente
         return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    except ExpiredSignatureError:
+    except jwt.ExpiredSignatureError:
         logger.warning("Token expirado")
         return None
-    except InvalidTokenError as e:
+    except jwt.InvalidTokenError as e:
         logger.warning(f"Token inválido: {e}")
+        return None
+    except Exception as e:
+        logger.warning(f"Erro ao decodificar token: {e}")
         return None
