@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from api.core.db import get_db
-from api.schemas.errors import ErrorResponse
 from api.schemas.ml_schema_books import (
     BookPriceFeatures,
     BookPricePredictionResponse,
