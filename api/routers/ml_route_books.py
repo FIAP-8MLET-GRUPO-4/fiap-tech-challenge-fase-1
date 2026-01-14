@@ -11,7 +11,6 @@ from api.schemas.ml_schema_books import (
 )
 
 from api.services.ml_service_books import (
-    NoValidBooksError,
     train_price_model,
     predict_price,
     get_book_features,
@@ -32,12 +31,16 @@ router = APIRouter()
 )
 def features(db: Session = Depends(get_db)):
     try:
-        return get_book_features(db)
-    except NoValidBooksError:
-        raise HTTPException(
-            status_code=404,
-            detail="Nenhum livro válido encontrado para gerar features."
-        )
+        result = get_book_features(db)
+        if not result:
+            raise HTTPException(
+                status_code=404,
+                detail="Nenhum livro válido encontrado para gerar features."
+            )
+        return result
+
+    except HTTPException:
+        raise
 
     except Exception:
         raise HTTPException(
@@ -47,7 +50,7 @@ def features(db: Session = Depends(get_db)):
 
 @router.get(
     "/training-data",
-    response_model=List[BookPriceTrainingSample], 
+    response_model=List[BookPriceTrainingSample],
     summary="Dados rotulados para treino do modelo",
     responses={
         200: {"description": "Dados retornados com sucesso"},
@@ -62,7 +65,7 @@ def training_data(db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post(
-    "/train-model", 
+    "/train-model",
     response_model=BookPriceTrainResponse,
     responses={
         200: {"description": "Modelo treinado com sucesso"},
@@ -100,4 +103,3 @@ def predictions(payload: BookPriceFeatures):
             status_code=500,
             detail=f"Erro ao processar predição: {str(e)}"
         )
-        
