@@ -25,11 +25,7 @@ COPY entrypoint.sh /entrypoint.sh
 COPY start.sh /start.sh
 RUN chmod +x /entrypoint.sh /start.sh
 
-# Para docker-compose local, usa entrypoint.sh (aguarda DB)
-# Para Render, usa start.sh via CMD
-ENTRYPOINT ["/entrypoint.sh"]
-
-# Comando padrão (sobrescrito pelo entrypoint.sh localmente)
-# No Render, o entrypoint é sobrescrito e usa start.sh
+# Comando padrão: start.sh (usado no Render)
+# Para docker-compose local, sobrescrevemos com entrypoint.sh
 CMD ["/start.sh"]
 

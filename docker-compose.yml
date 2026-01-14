@@ -26,6 +26,7 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       SCRAPER_LIMIT: 2
+    entrypoint: ["/entrypoint.sh"]
     depends_on:
       db:
         condition: service_healthy
