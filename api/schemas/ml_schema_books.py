@@ -1,19 +1,24 @@
-from pydantic import BaseModel, ConfigDict
-from typing import Optional
+from pydantic import BaseModel, Field
+from typing import Optional, Dict
 
 
 class BookPriceFeatures(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    rating: Optional[int] = None
-    quantity: int
+    rating: Optional[int] = Field(default=None, ge=0, le=5)
+    quantity: int = Field(default=0, ge=0)
     availability: bool
-    category_id: int
+    category_id: int = Field(ge=1)
 
 
 class BookPriceTrainingSample(BookPriceFeatures):
     target_price: float
 
 
+class BookPriceTrainResponse(BaseModel):
+    status: str
+    model_path: str
+    train_size: int
+    test_size: int
+    metrics: Dict[str, float]
+
 class BookPricePredictionResponse(BaseModel):
-    target_price: float
+    predicted_price: float
