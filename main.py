@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from api.core.db import init_db
-from api.routers import scraper_route, book_route, insights_route, ml_route, category_route, health_route, auth_route
+from api.routers import scraper_route, book_route, insights_route, ml_route, category_route, health_route, auth_route, ml_route_books
 from api.core.logging_config import setup_logging
 from api.middlewares.request_logging import RequestLoggingMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
@@ -44,6 +44,9 @@ app.include_router(health_route.router, prefix="/api/v1/health", tags=["System"]
 
 # POST /api/v1/auth: Cria as Rotas de login e refresh para obter e renovar token
 app.include_router(auth_route.router, prefix="/api/v1/auth", tags=["Authentication"])
+
+# GET /api/v1/ml/books: Rotas sobre endpoints pensados para consumo de modelos ML para livros
+app.include_router(ml_route_books.router, prefix="/api/v1/ml/books", tags=["Machine Learning Books"])
 
 if __name__ == "__main__":
     import uvicorn
