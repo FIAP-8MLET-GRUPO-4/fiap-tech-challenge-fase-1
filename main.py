@@ -1,10 +1,11 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from api.core.db import init_db
 from api.routers import scraper_route, book_route, insights_route, ml_route, category_route, health_route, auth_route, ml_route_books
 from api.core.logging_config import setup_logging
 from api.middlewares.request_logging import RequestLoggingMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 
 setup_logging(os.getenv("LOG_LEVEL", "INFO"))
 
@@ -12,7 +13,11 @@ app = FastAPI()
 
 app.add_middleware(RequestLoggingMiddleware)
 
-Instrumentator().instrument(app).expose(app, endpoint="/metrics")
+Instrumentator().instrument(app)
+
+@app.get("/metrics")
+def get_metrics():
+    return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 @app.on_event("startup")
 def on_startup():
