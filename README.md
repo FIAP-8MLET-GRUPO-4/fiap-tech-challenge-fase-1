@@ -6,12 +6,13 @@ API desenvolvida com FastAPI e PostgreSQL para o Tech Challenge da FIAP.
 
 ### Integrantes do Grupo
 
-| Nome | E-mail | Perfil Google Skills |
+| Nome | E-mail | Perfil Profissional |
 | :--- | :--- | :---: |
 | **Doglas Parise** | [doglasparise@gmail.com](mailto:doglasparise@gmail.com) | [🔗 Skills Google](https://www.skills.google/public_profiles/c73ebebd-15ad-4883-97f3-02551573d9b9) |
 | **Mariana Teixeira Dornelles Parise** | [m.dornelles19@gmail.com](mailto:m.dornelles19@gmail.com) | [🔗 Skills Google](https://www.skills.google/public_profiles/c71a2add-704b-450f-9eba-2ebb17f39191) |
 | **Ricardo Gomes de Souza** | [ricardo_g_souza@yahoo.com](mailto:ricardo_g_souza@yahoo.com) | - |
 | **Silvio José Meirelles** | [professorsilviomeireles@gmail.com](mailto:professorsilviomeireles@gmail.com) | - |
+| **Novo Integrante** | [e-mail aqui] | [🔗 Skills Google](https://www.skills.google/public_profiles/3f78cef1-fb4a-4d92-9eef-f03c1c7df021) | |
 
 ## Pré-requisitos
 
