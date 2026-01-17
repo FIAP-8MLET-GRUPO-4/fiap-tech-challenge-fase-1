@@ -2,6 +2,15 @@
 
 API desenvolvida com FastAPI e PostgreSQL para o Tech Challenge da FIAP.
 
+## Integrantes do grupo:
+
+- Doglas Parise <doglasparise@gmail.com>
+  https://www.skills.google/public_profiles/c73ebebd-15ad-4883-97f3-02551573d9b9
+- Mariana Teixeira Dornelles Parise <m.dornelles19@gmail.com>
+  https://www.skills.google/public_profiles/c71a2add-704b-450f-9eba-2ebb17f39191
+- Ricardo Gomes de Souza <ricardo_g_souza@yahoo.com>
+- Silvio José Meirelles <professorsilviomeireles@gmail.com>
+
 ## Pré-requisitos
 
 ### Para execução com Docker (recomendado)
