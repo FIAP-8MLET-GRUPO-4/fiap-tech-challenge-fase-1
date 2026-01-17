@@ -12,7 +12,6 @@ class BookPriceFeatures(BaseModel):
 class BookPriceTrainingSample(BookPriceFeatures):
     target_price: float
 
-
 class BookPriceTrainResponse(BaseModel):
     status: str
     model_path: str

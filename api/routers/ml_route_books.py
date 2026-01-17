@@ -96,7 +96,7 @@ def predictions(payload: BookPriceFeatures):
         return predict_price(payload.model_dump())
 
     except FileNotFoundError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e))
 
     except Exception as e:
         raise HTTPException(
