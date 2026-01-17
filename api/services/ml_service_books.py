@@ -58,7 +58,7 @@ def _to_rows(books):
             "quantity": int(b.quantity) if b.quantity is not None else 0,
             "availability": bool(b.availability) if b.availability is not None else False,
             "category_id": int(b.category_id) if b.category_id is not None else None,
-            "price": float(b.price),
+            "target_price": float(b.price),
         })
     return rows
 
@@ -145,7 +145,7 @@ def predict_price(payload_dict: dict):
     X["category_id"] = X["category_id"].astype(int)
 
     pred = float(model.predict(X)[0])
-    return {"target_price": max(0.0, pred)}
+    return {"predicted_price": max(0.0, pred)}
 
 
 
