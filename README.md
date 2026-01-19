@@ -13,8 +13,14 @@ API desenvolvida com FastAPI e PostgreSQL para o Tech Challenge da FIAP.
 | **Ricardo Gomes de Souza** | [ricardo_g_souza@yahoo.com](mailto:ricardo_g_souza@yahoo.com) | [🔗 Skills Google](https://www.skills.google/public_profiles/3f78cef1-fb4a-4d92-9eef-f03c1c7df021) |
 | **Silvio José Meirelles** | [professorsilviomeireles@gmail.com](mailto:professorsilviomeireles@gmail.com) | - |
 
+## Vídeo de apresentação
+[![Link para vídeo de apresentação](https://img.youtube.com/vi/_IeboziIPKM/hqdefault.jpg)](https://youtu.be/_IeboziIPKM?si=3FDX4B64DVHsWmoW)
+
 ## Documento arquitetural
 [📄 Plano Arquitetural - FIAP Tech Challenge Fase 1](https://github.com/FIAP-8MLET-GRUPO-4/fiap-tech-challenge-fase-1/blob/ef6b432cab7e7977a511730e3acb9f7c56b9275a/docs/FIAP-TECH-CHALLANGE-1-PLANO-ARQUITETURAL.pdf)
+
+## Deploy no Render
+[![Deploy da API (Swagger / OpenAPI)](https://img.shields.io/badge/API-Swagger-green)](https://fiap-tech-challenge-fase-1.onrender.com/docs#/)
 
 ## Pré-requisitos
 
