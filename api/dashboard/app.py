@@ -4,7 +4,13 @@ import pandas as pd
 import streamlit as st
 from prometheus_client.parser import text_string_to_metric_families
 
-API_METRICS_URL = os.getenv("API_METRICS_URL", "http://localhost:8000/metrics")
+# Constrói a URL das métricas: usa API_METRICS_URL se definido, senão constrói a partir de API_URL
+API_METRICS_URL = os.getenv("API_METRICS_URL")
+if not API_METRICS_URL:
+    API_URL = os.getenv("API_URL", "http://localhost:8000")
+    # Remove barra final se existir
+    API_URL = API_URL.rstrip("/")
+    API_METRICS_URL = f"{API_URL}/metrics"
 
 st.set_page_config(page_title="Tech Challenge - Monitoramento", layout="wide")
 st.title("📈 Monitoramento & Analytics")

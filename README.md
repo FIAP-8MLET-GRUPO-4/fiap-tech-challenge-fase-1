@@ -106,6 +106,7 @@ uvicorn main:app --reload
 - **API**: http://localhost:8000
 - **Documentação Swagger**: http://localhost:8000/docs
 - **Documentação ReDoc**: http://localhost:8000/redoc
+- **Métricas Prometheus**: http://localhost:8000/metrics
 
 ## Scrapping
 
@@ -147,6 +148,8 @@ streamlit run api/dashboard/app.py
 
 ### Dashboard
 Acesse seu dashboard em http://localhost:8501
+
+O dashboard consome as métricas automaticamente de `http://localhost:8000/metrics`. Para acessar as métricas diretamente (formato Prometheus), acesse: **http://localhost:8000/metrics**
 
 
 ## Testes Automatizados
@@ -295,10 +298,12 @@ O projeto está configurado para deploy no [Render](https://render.com) com Post
 
 ### URLs de Produção
 
-Após o deploy, você terá:
-- **API**: `https://fiap-tech-challenge-api.onrender.com`
-- **Dashboard**: `https://fiap-tech-challenge-dashboard.onrender.com`
-- **Swagger**: `https://fiap-tech-challenge-api.onrender.com/docs`
+🚀 **Acesse a aplicação em produção**:
+- **API Base URL**: https://fiap-tech-challenge-fase-1.onrender.com
+- **Documentação Swagger**: https://fiap-tech-challenge-fase-1.onrender.com/docs
+- **Documentação ReDoc**: https://fiap-tech-challenge-fase-1.onrender.com/redoc
+- **Métricas Prometheus**: https://fiap-tech-challenge-fase-1.onrender.com/metrics
+- **Dashboard Streamlit**: https://fiap-tech-challenge-dashboard.onrender.com (consome métricas automaticamente)
 
 ### Variáveis de Ambiente no Render
 
